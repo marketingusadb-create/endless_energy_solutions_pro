@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endless Energy Solutions – Energía Solar en Puerto Rico</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #00E5FF;
+    --primary-dark: #0091EA;
+    --secondary: #76FF03;
+    --accent: #FFD600;
+    --bg-dark: #0A0F1E;
+    --bg-card: #111827;
+    --bg-card-hover: #1A2332;
+    --text: #E2E8F0;
+    --text-muted: #94A3B8;
+    --gradient-1: linear-gradient(135deg, #00E5FF, #76FF03);
+    --gradient-2: linear-gradient(135deg, #FFD600, #FF6D00);
+    --gradient-3: linear-gradient(135deg, #00E5FF, #0091EA);
+    --glass: rgba(255,255,255,0.05);
+    --glass-border: rgba(255,255,255,0.1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--primary); color: #000; }
+
+  /* ── Ambient BG ── */
+  .bg-glow {
+    position: fixed; top:-30%; left:-10%; width:60%; height:60%;
+    background: radial-gradient(circle, rgba(0,229,255,.08) 0%, transparent 70%);
+    pointer-events:none; z-index:0;
+  }
+  .bg-glow2 {
+    position: fixed; bottom:-20%; right:-10%; width:50%; height:50%;
+    background: radial-gradient(circle, rgba(118,255,3,.06) 0%, transparent 70%);
+    pointer-events:none; z-index:0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top:0; width:100%; z-index:999;
+    background: rgba(10,15,30,.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 50px;
+  }
+  nav .logo { display:flex; align-items:center; gap:14px; }
+  nav .logo img { height:52px; border-radius:6px; }
+  nav .logo-text { font-weight:900; font-size:1rem; line-height:1.2; letter-spacing:-.02em; }
+  nav .logo-text .endless { background: var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  nav .logo-text .energy  { color: var(--accent); }
+  nav .logo-text .sol     { background: var(--gradient-3); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  nav ul { list-style:none; display:flex; gap:28px; }
+  nav ul li a {
+    font-weight:600; font-size:.85rem;
+    color: var(--text-muted); text-decoration:none; letter-spacing:.04em;
+    transition: color .25s; position:relative;
+  }
+  nav ul li a::after {
+    content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px;
+    background: var(--gradient-1); transition: width .3s; border-radius:2px;
+  }
+  nav ul li a:hover { color: #fff; }
+  nav ul li a:hover::after { width:100%; }
+  nav .nav-cta {
+    background: var(--gradient-1); color:#000; border:none; padding:10px 24px;
+    border-radius:25px; font-weight:700; font-size:.85rem; cursor:pointer;
+    transition: transform .2s, box-shadow .25s;
+  }
+  nav .nav-cta:hover { transform: scale(1.06); box-shadow: 0 0 30px rgba(0,229,255,.35); }
+
+  .lang-switch {
+    display:flex; gap:4px; background:rgba(255,255,255,.08); border-radius:20px; padding:3px; margin-right:8px;
+  }
+  .lang-switch button {
+    border:none; background:transparent; padding:6px 12px; border-radius:18px;
+    font-family:'Inter',sans-serif; font-weight:700; font-size:.75rem; cursor:pointer;
+    color:var(--text-muted); transition:all .2s;
+  }
+  .lang-switch button.active { background:var(--primary); color:#000; }
+
+  /* ── HERO ── */
+  #inicio {
+    height: 100vh; position:relative; display:flex; align-items:center;
+    overflow: hidden;
+  }
+  .hero-slide {
+    position:absolute; inset:0; background-size:cover; background-position:center;
+    transition: opacity 1.2s ease-in-out;
+  }
+  .hero-slide::after {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(120deg, rgba(10,15,30,.85) 30%, rgba(0,145,234,.25));
+  }
+  .hero-content {
+    position:relative; z-index:2; max-width:720px; padding: 0 60px; margin-top:60px;
+  }
+  .hero-content .badge {
+    display:inline-block; margin-bottom:16px;
+    background: var(--glass); border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);
+    color: var(--primary); font-weight:600; font-size:.8rem;
+    padding:6px 18px; border-radius:20px; letter-spacing:.06em;
+  }
+  .hero-content h1 {
+    font-weight:900; font-size:3.4rem;
+    line-height:1.05; text-transform:uppercase;
+  }
+  .hero-content h1 .grad { background: var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero-content h1 .grad2 { background: var(--gradient-2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero-content p {
+    font-size:1.05rem; color: var(--text-muted); margin:18px 0 28px;
+    max-width:520px; line-height:1.7;
+  }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary {
+    background: var(--gradient-1); color:#000; border:none;
+    padding:14px 32px; border-radius:30px;
+    font-weight:700; font-size:.95rem; cursor:pointer;
+    transition: transform .2s, box-shadow .25s; text-decoration:none; display:inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(0,229,255,.3); }
+  .btn-outline {
+    background: transparent; color: #fff;
+    border:1.5px solid rgba(255,255,255,.3); padding:14px 32px; border-radius:30px;
+    font-weight:600; font-size:.95rem; cursor:pointer; transition: all .25s;
+    text-decoration:none; display:inline-block;
+  }
+  .btn-outline:hover { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 30px rgba(0,229,255,.15); }
+  .hero-phone {
+    position:absolute; right:50px; bottom:40px; z-index:2;
+    background: var(--glass); backdrop-filter:blur(12px);
+    border:1px solid var(--glass-border);
+    color: #fff; font-weight:700; font-size:1rem;
+    padding:12px 24px; border-radius:12px;
+  }
+  .hero-phone span { color: var(--primary); }
+  .hero-dots {
+    position:absolute; bottom:24px; left:50%; transform:translateX(-50%);
+    display:flex; gap:10px; z-index:3;
+  }
+  .hero-dots span {
+    width:30px; height:4px; border-radius:4px;
+    background: rgba(255,255,255,.25); cursor:pointer; transition: all .4s;
+  }
+  .hero-dots span.active { background: var(--primary); width:50px; }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 100px 50px; position:relative; z-index:1; }
+  .section-tag {
+    display:inline-block; margin-bottom:10px;
+    color: var(--primary); font-weight:600; font-size:.8rem;
+    letter-spacing:.12em; text-transform:uppercase;
+  }
+  .section-title {
+    font-weight:900; font-size:2.4rem; text-align:center; margin-bottom:10px;
+    letter-spacing:-.03em;
+  }
+  .section-title .grad { background: var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .section-title .grad2 { background: var(--gradient-2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .section-subtitle {
+    text-align:center; color: var(--text-muted); font-size:.95rem;
+    max-width:560px; margin: 0 auto 50px; line-height:1.7;
+  }
+
+  /* ── SOBRE ── */
+  #sobre { background: var(--bg-card); }
+  .sobre-grid {
+    max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+  }
+  .sobre-img { position:relative; }
+  .sobre-img img { width:100%; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.5); }
+  .sobre-img::before {
+    content:''; position:absolute; inset:-4px; border-radius:20px;
+    background: var(--gradient-1); z-index:-1; opacity:.3;
+  }
+  .sobre-badge {
+    position:absolute; bottom:-16px; right:-16px;
+    background: var(--gradient-2); color:#000;
+    font-weight:800; font-size:.8rem;
+    padding:16px 22px; border-radius:14px; text-align:center;
+    box-shadow:0 8px 30px rgba(255,214,0,.3); line-height:1.4;
+  }
+  .sobre-text h2 { font-weight:900; font-size:2rem; margin-bottom:18px; }
+  .sobre-text h2 span { background: var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .sobre-text p { color: var(--text-muted); line-height:1.8; margin-bottom:14px; font-size:.95rem; }
+  .sobre-list { list-style:none; margin:20px 0; }
+  .sobre-list li {
+    display:flex; align-items:flex-start; gap:12px;
+    margin-bottom:12px; font-size:.9rem;
+  }
+  .sobre-list li::before {
+    content:'✦'; color: var(--primary); font-weight:700; flex-shrink:0; margin-top:1px;
+  }
+
+  /* ── SERVICIOS ── */
+  #servicios { background: var(--bg-dark); }
+  .cards-grid {
+    max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px;
+  }
+  .card {
+    background: var(--bg-card); border-radius:16px; padding:36px 28px;
+    border:1px solid var(--glass-border);
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+    position:relative; overflow:hidden;
+  }
+  .card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background: var(--gradient-1); transform:scaleX(0); transform-origin:left;
+    transition: transform .4s;
+  }
+  .card:hover { transform:translateY(-8px); border-color: rgba(0,229,255,.2); box-shadow:0 20px 60px rgba(0,0,0,.4); }
+  .card:hover::before { transform:scaleX(1); }
+  .card-icon { font-size:2.2rem; margin-bottom:16px; display:inline-block; padding:12px; background:var(--glass); border-radius:12px; }
+  .card h3 { font-weight:700; font-size:1.05rem; margin-bottom:10px; color:#fff; }
+  .card p { color: var(--text-muted); font-size:.88rem; line-height:1.7; }
+
+  /* ── ALMACENAJE ── */
+  #almacenaje {
+    background: linear-gradient(135deg, #0A0F1E 0%, #0D2137 100%);
+    position:relative; overflow:hidden;
+  }
+  #almacenaje::before {
+    content:''; position:absolute; top:-50%; right:-20%; width:60%; height:100%;
+    background: radial-gradient(circle, rgba(0,229,255,.06), transparent 70%);
+  }
+  .storage-grid {
+    max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+    position:relative; z-index:1;
+  }
+  .storage-text h3 {
+    font-weight:900; font-size:1.6rem; margin-bottom:16px;
+    background: var(--gradient-2); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .storage-text p { color: var(--text-muted); line-height:1.8; margin-bottom:14px; font-size:.95rem; }
+  .storage-features { list-style:none; margin:20px 0; }
+  .storage-features li {
+    display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; color: var(--text);
+  }
+  .storage-features li::before { content:'⚡'; flex-shrink:0; }
+  .storage-visual {
+    background: var(--glass); border-radius:20px; padding:40px;
+    text-align:center; border:1px solid var(--glass-border); backdrop-filter:blur(10px);
+  }
+  .powersync-label {
+    font-weight:900; font-size:1.8rem;
+    background: var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    letter-spacing:.08em; margin-bottom:16px;
+  }
+  .battery-tip {
+    width:40px; height:12px; background: var(--primary); border-radius:4px;
+    margin:0 auto -4px; position:relative; z-index:2; box-shadow:0 0 20px rgba(0,229,255,.3);
+  }
+  .battery-anim {
+    width:120px; height:200px; border:3px solid rgba(255,255,255,.3);
+    border-radius:12px; margin:0 auto 20px; position:relative; overflow:hidden;
+  }
+  .battery-fill {
+    position:absolute; bottom:0; left:0; right:0;
+    background: linear-gradient(to top, var(--primary), var(--secondary));
+    animation: charge 3s ease-in-out infinite alternate;
+    box-shadow: inset 0 0 20px rgba(0,229,255,.2);
+  }
+  @keyframes charge {
+    from { height:20%; }
+    to   { height:92%; }
+  }
+  .storage-visual p { color: var(--text-muted); font-size:.85rem; margin-top:12px; }
+
+  /* ── GALERIA ── */
+  #galeria { background: var(--bg-card); }
+  .gallery-grid {
+    max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;
+  }
+  .gallery-item {
+    border-radius:16px; overflow:hidden;
+    border:1px solid var(--glass-border);
+    transition: transform .3s, box-shadow .3s;
+    position:relative;
+  }
+  .gallery-item:hover { transform:translateY(-8px); box-shadow:0 20px 60px rgba(0,0,0,.5); }
+  .gallery-item img { width:100%; height:220px; object-fit:cover; display:block; transition: transform .4s; }
+  .gallery-item:hover img { transform:scale(1.06); }
+  .gallery-item.featured img { height:300px; }
+  .gallery-caption {
+    position:absolute; bottom:0; left:0; right:0;
+    background: linear-gradient(transparent, rgba(10,15,30,.95));
+    color: #fff; padding:18px 16px 14px;
+    font-weight:600; font-size:.85rem;
+  }
+
+  /* ── CALCULADORA ── */
+  #calculadora { background: var(--bg-dark); }
+  .calc-wrap {
+    max-width:600px; margin:0 auto;
+    background: var(--bg-card); border-radius:20px; padding:48px;
+    border:1px solid var(--glass-border);
+  }
+  .calc-wrap h3 {
+    font-weight:800; font-size:1.3rem; margin-bottom:24px; text-align:center;
+    background: var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .form-group { margin-bottom:18px; }
+  .form-group label {
+    display:block; font-weight:600; font-size:.82rem; color: var(--text-muted); margin-bottom:6px;
+  }
+  .form-group input, .form-group select {
+    width:100%; padding:12px 16px;
+    background: rgba(255,255,255,.05); border:1px solid var(--glass-border);
+    border-radius:10px; font-size:.95rem; color:#fff; outline:none;
+    transition: border-color .25s;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+  .form-group input::placeholder { color: rgba(255,255,255,.3); }
+  .form-group select option { background: var(--bg-dark); color:#fff; }
+  .calc-result {
+    background: var(--glass); border:1px solid var(--glass-border);
+    border-radius:14px; padding:24px; margin-top:24px; text-align:center; display:none;
+  }
+  .calc-result h4 { font-weight:700; color: var(--primary); font-size:1rem; margin-bottom:8px; }
+  .calc-result .big-num { font-size:2.6rem; font-weight:900; background: var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .calc-result p { color: var(--text-muted); font-size:.85rem; margin-top:6px; }
+
+  /* ── COTIZA ── */
+  #cotiza { background: var(--bg-card); }
+  .cotiza-wrap {
+    max-width:640px; margin:0 auto;
+    background: var(--bg-dark); border-radius:20px; padding:48px;
+    border:1px solid var(--glass-border);
+  }
+  .cotiza-wrap h3 {
+    font-weight:800; font-size:1.4rem; margin-bottom:6px; text-align:center;
+    background: var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .cotiza-wrap .sub { text-align:center; color: var(--text-muted); font-size:.85rem; margin-bottom:28px; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .form-group textarea {
+    width:100%; padding:12px 16px; background: rgba(255,255,255,.05);
+    border:1px solid var(--glass-border); border-radius:10px; font-size:.95rem;
+    color:#fff; resize:vertical; min-height:90px; outline:none; transition:border-color .25s;
+    font-family:'Inter',sans-serif;
+  }
+  .form-group textarea:focus { border-color: var(--primary); }
+  .form-group textarea::placeholder { color: rgba(255,255,255,.3); }
+  .success-msg {
+    background: rgba(118,255,3,.08); border:1px solid rgba(118,255,3,.25);
+    border-radius:12px; padding:20px; text-align:center; display:none; margin-top:20px;
+    color: var(--secondary); font-weight:600; font-size:.9rem;
+  }
+
+  /* ── BANNER DACO ── */
+  .banner-daco {
+    background: var(--glass); border-top:1px solid var(--glass-border);
+    border-bottom:1px solid var(--glass-border);
+    padding:28px 40px; text-align:center;
+  }
+  .banner-daco p {
+    font-weight:800; font-size:1rem; letter-spacing:.04em;
+    background: var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg-dark); color:#fff; padding:60px 60px 24px;
+    border-top:1px solid var(--glass-border);
+  }
+  .footer-grid {
+    max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:2fr 1fr 1fr; gap:50px; margin-bottom:36px;
+  }
+  .footer-logo img { height:60px; border-radius:6px; margin-bottom:12px; }
+  .footer-logo p { font-size:.85rem; color: var(--text-muted); line-height:1.6; max-width:300px; }
+  footer h4 { font-weight:700; color: #fff; margin-bottom:14px; font-size:.9rem; }
+  footer p, footer a { color: var(--text-muted); font-size:.85rem; text-decoration:none; display:block; margin-bottom:8px; transition:color .2s; }
+  footer a:hover { color: var(--primary); }
+  .footer-bottom {
+    border-top:1px solid var(--glass-border); padding-top:18px;
+    text-align:center; font-size:.8rem; color: var(--text-muted);
+  }
+
+  /* ── WHATSAPP ── */
+  .whatsapp-float {
+    position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+    background: #25D366; color: #fff;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 24px rgba(37,211,102,.4);
+    text-decoration: none; transition: transform .25s, box-shadow .25s;
+    animation: pulse-wa 2.5s infinite;
+  }
+  .whatsapp-float:hover { transform: scale(1.12); box-shadow: 0 6px 32px rgba(37,211,102,.6); }
+  .whatsapp-float svg { width: 32px; height: 32px; fill: #fff; }
+  .whatsapp-tooltip {
+    position: absolute; right: 70px; background: #fff;
+    color: #128C7E; font-weight:700; font-size:.78rem;
+    padding: 8px 14px; border-radius: 20px;
+    white-space: nowrap; box-shadow: 0 2px 12px rgba(0,0,0,.3);
+    opacity: 0; pointer-events: none; transition: opacity .3s;
+  }
+  .whatsapp-float:hover .whatsapp-tooltip { opacity: 1; }
+  @keyframes pulse-wa {
+    0%,100% { box-shadow: 0 4px 24px rgba(37,211,102,.4); }
+    50%      { box-shadow: 0 4px 40px rgba(37,211,102,.75); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:768px){
+    nav { padding:10px 20px; }
+    nav ul { display:none; }
+    .hero-content { padding:0 24px; }
+    .hero-content h1 { font-size:2rem; }
+    .hero-phone { right:20px; bottom:20px; font-size:.85rem; padding:10px 16px; }
+    .sobre-grid, .storage-grid, .footer-grid, .form-row { grid-template-columns:1fr; }
+    .sobre-badge { right:0; }
+    section { padding:60px 20px; }
+    .section-title { font-size:1.8rem; }
+    .calc-wrap, .cotiza-wrap { padding:28px 20px; }
+    .gallery-grid { grid-template-columns:1fr 1fr; }
+    .footer-grid { grid-template-columns:1fr; gap:30px; }
+    .whatsapp-float { bottom:20px; right:20px; width:52px; height:52px; }
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow2"></div>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="logo">
+    <img src="Logo.jpg" alt="Endless Energy Solutions">
+    <div class="logo-text">
+      <span class="endless">ENDLESS</span> <span class="energy">ENERGY</span><br>
+      <span class="sol">SOLUTIONS</span>
+    </div>
+  </div>
+  <ul>
+    <li><a href="#inicio" data-i18n="navInicio">INICIO</a></li>
+    <li><a href="#sobre" data-i18n="navNosotros">NOSOTROS</a></li>
+    <li><a href="#servicios" data-i18n="navServicios">SERVICIOS</a></li>
+    <li><a href="#galeria" data-i18n="navGaleria">GALERÍA</a></li>
+    <li><a href="#almacenaje" data-i18n="navAlmacenaje">ALMACENAJE</a></li>
+    <li><a href="#calculadora" data-i18n="navCalculadora">CALCULADORA</a></li>
+    <li><a href="#cotiza" data-i18n="navContacto">CONTACTO</a></li>
+  </ul>
+  <div class="lang-switch">
+    <button id="langEs" class="active" onclick="setLang('es')">ES</button>
+    <button id="langEn" onclick="setLang('en')">EN</button>
+  </div>
+  <button class="nav-cta" data-i18n="navCta" onclick="document.getElementById('cotiza').scrollIntoView({behavior:'smooth'})">Cotiza Gratis</button>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="inicio" style="padding:0;">
+  <div class="hero-slide" id="slide0" style="background-image:url('002.jpg'); opacity:1;"></div>
+  <div class="hero-slide" id="slide1" style="background-image:url('001.jpg'); opacity:0;"></div>
+
+  <div class="hero-content">
+    <div class="badge" data-i18n="heroBadge">⚡ Puerto Rico & Isla Vírgenes</div>
+    <h1 data-i18n="heroH1">
+      <span class="grad">Batería de</span><br>
+      <span class="grad2">Almacenamiento</span><br>
+      <span class="grad">Solar</span>
+    </h1>
+    <p data-i18n="heroP">La única batería en Puerto Rico con 20 años de garantía. Energía limpia, confiable y sin apagones.</p>
+    <div class="hero-btns">
+      <a href="#cotiza" class="btn-primary" data-i18n="heroBtn1">Cotiza Gratis</a>
+      <a href="#calculadora" class="btn-outline" data-i18n="heroBtn2">Calculadora de Ahorro</a>
+    </div>
+  </div>
+  <div class="hero-phone"><span>📞</span> (787) 640-2916</div>
+  <div class="hero-dots">
+    <span class="active" onclick="goSlide(0)"></span>
+    <span onclick="goSlide(1)"></span>
+  </div>
+</section>
+
+<!-- ══ SOBRE ══ -->
+<section id="sobre">
+  <div class="section-tag" data-i18n="sobreTag">Quiénes Somos</div>
+  <h2 class="section-title" data-i18n="sobreTitle"><span class="grad">Endless Energy</span> <span class="grad2">Solutions</span></h2>
+  <p class="section-subtitle" data-i18n="sobreSub">Líderes en energía solar y almacenamiento en Puerto Rico e Isla Vírgenes</p>
+  <div class="sobre-grid">
+    <div class="sobre-img">
+      <img src="001.jpg" alt="Instalación solar Endless Energy Solutions">
+      <div class="sobre-badge" data-i18n="sobreBadge">+20 Años de Garantía en Baterías</div>
+    </div>
+    <div class="sobre-text">
+      <h2 data-i18n="sobreH2">Energía Solar al <span>Alcance</span> de Todos</h2>
+      <p data-i18n="sobreP1">En <strong>Endless Energy Solutions</strong> la energía solar y el ahorro están a su alcance. Suplimos equipos al por mayor y realizamos instalaciones residenciales y comerciales.</p>
+      <p data-i18n="sobreP2">Somos representantes exclusivos de la única batería en Puerto Rico de sistemas solares con <strong>20 años de garantía</strong>.</p>
+      <p data-i18n="sobreP3">Tras los constantes apagones y la vulnerabilidad del sistema eléctrico, le proveemos soluciones confiables y permanentes.</p>
+      <ul class="sobre-list">
+        <li data-i18n="sobreLi1">Instalaciones residenciales y comerciales certificadas</li>
+        <li data-i18n="sobreLi2">Representantes exclusivos de POWERSYNC en Puerto Rico</li>
+        <li data-i18n="sobreLi3">Licencia de registro de contratistas de DACO</li>
+        <li data-i18n="sobreLi4">Servicio a todo PR e Isla Vírgenes</li>
+      </ul>
+      <a href="#cotiza" class="btn-primary" style="margin-top:10px;" data-i18n="sobreBtn">Solicitar Información</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICIOS ══ -->
+<section id="servicios">
+  <div class="section-tag" data-i18n="serviciosTag">Servicios</div>
+  <h2 class="section-title" data-i18n="serviciosTitle">Nuestros <span class="grad">Servicios</span></h2>
+  <p class="section-subtitle" data-i18n="serviciosSub">Soluciones integrales de energía renovable para hogares y empresas</p>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon">🏠</div>
+      <h3 data-i18n="card1T">Instalación Residencial</h3>
+      <p data-i18n="card1D">Paneles solares de alta eficiencia para su hogar con instalación profesional certificada.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏢</div>
+      <h3 data-i18n="card2T">Instalación Comercial</h3>
+      <p data-i18n="card2D">Sistemas a gran escala para negocios e industrias, reduciendo costos operativos significativamente.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔋</div>
+      <h3 data-i18n="card3T">Baterías POWERSYNC</h3>
+      <p data-i18n="card3D">La única batería en PR con 20 años de garantía. Almacene la energía del sol para usarla cuando la necesite.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛒</div>
+      <h3 data-i18n="card4T">Venta al Por Mayor</h3>
+      <p data-i18n="card4D">Equipos y componentes solares de calidad para distribuidores e instaladores certificados.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔧</div>
+      <h3 data-i18n="card5T">Mantenimiento</h3>
+      <p data-i18n="card5D">Servicio técnico especializado para mantener su sistema operando al máximo rendimiento.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <h3 data-i18n="card6T">Consultoría Energética</h3>
+      <p data-i18n="card6D">Evaluación personalizada de su consumo eléctrico y diseño del sistema ideal para usted.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALERIA ══ -->
+<section id="galeria">
+  <div class="section-tag" data-i18n="galeriaTag">Galería</div>
+  <h2 class="section-title" data-i18n="galeriaTitle">Nuestros <span class="grad">Trabajos</span></h2>
+  <p class="section-subtitle" data-i18n="galeriaSub">Instalaciones residenciales y comerciales realizadas por nuestro equipo certificado</p>
+  <div class="gallery-grid">
+    <div class="gallery-item featured">
+      <img src="002.jpg" alt="Instalación de paneles solares en techo residencial">
+      <div class="gallery-caption" data-i18n="galeriaCap1">Instalación residencial – Puerto Rico</div>
+    </div>
+    <div class="gallery-item">
+      <img src="001.jpg" alt="Técnico instalando sistema solar">
+      <div class="gallery-caption" data-i18n="galeriaCap2">Sistema solar – Techo plano</div>
+    </div>
+    <div class="gallery-item">
+      <img src="003.jpg" alt="Paneles solares instalados">
+      <div class="gallery-caption" data-i18n="galeriaCap3">Sistema fotovoltaico completo</div>
+    </div>
+    <div class="gallery-item">
+      <img src="004.jpg" alt="Instalación solar comercial">
+      <div class="gallery-caption" data-i18n="galeriaCap4">Instalación comercial</div>
+    </div>
+    <div class="gallery-item">
+      <img src="005.jpg" alt="Energía solar en acción">
+      <div class="gallery-caption" data-i18n="galeriaCap5">Ahorro con energía solar</div>
+    </div>
+    <div class="gallery-item">
+      <img src="Logo.jpg" alt="Endless Energy Solutions">
+      <div class="gallery-caption" data-i18n="galeriaCap6">Endless Energy Solutions</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ALMACENAJE ══ -->
+<section id="almacenaje">
+  <div class="section-tag" data-i18n="almacenajeTag">Tecnología</div>
+  <h2 class="section-title" data-i18n="almacenajeTitle">Almacenaje de <span class="grad2">Energía Solar</span></h2>
+  <p class="section-subtitle" data-i18n="almacenajeSub">El futuro energético de Puerto Rico comienza con una batería que realmente dura</p>
+  <div class="storage-grid">
+    <div class="storage-text">
+      <h3 data-i18n="almacenajeH3">POWERSYNC – 20 Años de Garantía</h3>
+      <p data-i18n="almacenajeP1">¡El momento para la batería de almacenamiento de energía solar es <strong>ahora</strong>! Nuestro producto POWERSYNC está inspirando el camino hacia la autonomía energética.</p>
+      <p data-i18n="almacenajeP2">Al contar con nuestro respaldo usted <strong>no perderá la energía producida</strong> por su sistema solar. En conjunto con su sistema fotovoltaico, puede ayudar a reducir los costos en su factura en gran medida.</p>
+      <ul class="storage-features">
+        <li data-i18n="almacenajeLi1">Almacena la energía solar excedente durante el día</li>
+        <li data-i18n="almacenajeLi2">Provee energía durante apagones nocturnos</li>
+        <li data-i18n="almacenajeLi3">Monitoreo inteligente del consumo en tiempo real</li>
+        <li data-i18n="almacenajeLi4">Compatible con todos los sistemas fotovoltaicos</li>
+        <li data-i18n="almacenajeLi5">Única batería en PR con 20 años de garantía</li>
+      </ul>
+      <a href="#cotiza" class="btn-primary" data-i18n="almacenajeBtn">Quiero mi POWERSYNC</a>
+    </div>
+    <div class="storage-visual">
+      <div class="powersync-label">POWERSYNC</div>
+      <div class="battery-tip"></div>
+      <div class="battery-anim">
+        <div class="battery-fill"></div>
+      </div>
+      <p>Cargando con energía solar ...</p>
+      <div style="margin-top:24px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-size:2rem;font-weight:900;background:var(--gradient-2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">20</div>
+          <div style="font-size:.78rem;color:var(--text-muted);">Años garantía</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:2rem;font-weight:900;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">100%</div>
+          <div style="font-size:.78rem;color:var(--text-muted);">Autonomía</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:2rem;font-weight:900;color:#fff;">$0</div>
+          <div style="font-size:.78rem;color:var(--text-muted);">Apagones</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CALCULADORA ══ -->
+<section id="calculadora">
+  <div class="section-tag" data-i18n="calcTag">Ahorro</div>
+  <h2 class="section-title" data-i18n="calcTitle">Calculadora de <span class="grad">Ahorro</span></h2>
+  <p class="section-subtitle" data-i18n="calcSub">Estime cuánto puede ahorrar al pasarse a la energía solar</p>
+  <div class="calc-wrap">
+    <h3 data-i18n="calcH3">Calcule su ahorro mensual estimado</h3>
+    <div class="form-group">
+      <label data-i18n="calcLabel1">¿Cuánto paga en electricidad al mes? ($)</label>
+      <input type="number" id="bill" placeholder="Ej: 250" min="0">
+    </div>
+    <div class="form-group">
+      <label data-i18n="calcLabel2">Tipo de propiedad</label>
+      <select id="propType">
+        <option value="res" data-i18n-opt="calcOpt1">Residencial</option>
+        <option value="com" data-i18n-opt="calcOpt2">Comercial</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label data-i18n="calcLabel3">¿Tiene batería de almacenamiento?</label>
+      <select id="hasBattery">
+        <option value="no" data-i18n-opt="calcOpt3">No</option>
+        <option value="yes" data-i18n-opt="calcOpt4">Sí – POWERSYNC</option>
+      </select>
+    </div>
+    <button class="btn-primary" style="width:100%;padding:14px;font-size:.95rem;" onclick="calcular()" data-i18n="calcBtn">Calcular Mi Ahorro</button>
+    <div class="calc-result" id="calcResult">
+      <h4 data-i18n="calcResultH4">Ahorro mensual estimado</h4>
+      <div class="big-num" id="calcNum">$0</div>
+      <p id="calcMsg"></p>
+      <br>
+      <a href="#cotiza" class="btn-primary" data-i18n="calcResultBtn">¡Quiero empezar a ahorrar!</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COTIZA ══ -->
+<section id="cotiza">
+  <div class="section-tag" data-i18n="cotizaTag">Contacto</div>
+  <h2 class="section-title" data-i18n="cotizaTitle">Cotiza <span class="grad2">Gratis</span></h2>
+  <p class="section-subtitle" data-i18n="cotizaSub">Déjenos sus datos y un asesor se comunicará con usted sin compromiso</p>
+  <div class="cotiza-wrap">
+    <h3 data-i18n="cotizaH3">Solicitud de Cotización</h3>
+    <p class="sub" data-i18n="cotizaSub2">Respuesta en menos de 24 horas · Sin costo · Sin compromiso</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label data-i18n="cotizaLabel1">Nombre completo *</label>
+        <input type="text" id="cNombre" data-i18n-ph="cotizaPh1" placeholder="Juan García">
+      </div>
+      <div class="form-group">
+        <label data-i18n="cotizaLabel2">Teléfono *</label>
+        <input type="tel" id="cTel" data-i18n-ph="cotizaPh2" placeholder="(787) 000-0000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-i18n="cotizaLabel3">Correo electrónico</label>
+      <input type="email" id="cEmail" data-i18n-ph="cotizaPh3" placeholder="juan@email.com">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label data-i18n="cotizaLabel4">Tipo de propiedad</label>
+        <select id="cTipo">
+          <option data-i18n-opt="cotizaOpt41">Residencial</option>
+          <option data-i18n-opt="cotizaOpt42">Comercial</option>
+          <option data-i18n-opt="cotizaOpt43">Industrial</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-i18n="cotizaLabel5">Servicio de interés</label>
+        <select id="cServicio">
+          <option data-i18n-opt="cotizaOpt51">Paneles Solares</option>
+          <option data-i18n-opt="cotizaOpt52">Batería POWERSYNC</option>
+          <option data-i18n-opt="cotizaOpt53">Sistema Completo</option>
+          <option data-i18n-opt="cotizaOpt54">Mantenimiento</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-i18n="cotizaLabel6">Factura mensual aproximada ($)</label>
+      <input type="number" id="cFactura" data-i18n-ph="cotizaPh6" placeholder="Ej: 300">
+    </div>
+    <div class="form-group">
+      <label data-i18n="cotizaLabel7">Mensaje adicional</label>
+      <textarea id="cMensaje" data-i18n-ph="cotizaPh7" placeholder="Cuéntenos más sobre sus necesidades..."></textarea>
+    </div>
+    <button class="btn-primary" style="width:100%;padding:14px;font-size:.95rem;" onclick="enviarCotizacion()" data-i18n="cotizaBtn">Enviar Solicitud →</button>
+    <a href="https://wa.me/17876402916?text=Hola%2C%20deseo%20cotizar%20un%20sistema%20solar" target="_blank" rel="noopener"
+       style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;font-size:.95rem;margin-top:12px;background:#25D366;color:#fff;border-radius:30px;font-weight:700;text-decoration:none;transition:background .2s,transform .2s;"
+       onmouseover="this.style.background='#1ebe5d'" onmouseout="this.style.background='#25D366'">
+      <svg style="width:20px;height:20px;fill:#fff;" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-i18n="cotizaWa">Contáctanos por WhatsApp</span>
+    </a>
+    <div class="success-msg" id="successMsg" data-i18n="cotizaSuccess">
+      Solicitud enviada con éxito<br>
+      Un asesor se comunicará con usted pronto.<br>
+      <strong style="color:#fff;">(787) 640-2916</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BANNER DACO ══ -->
+<div class="banner-daco">
+  <p data-i18n="bannerDaco">✅ Tenemos licencia de registro de contratistas de DACO</p>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-logo">
+      <img src="Logo.jpg" alt="Endless Energy Solutions">
+      <p style="font-weight:800;font-size:1rem;color:#fff;">ENDLESS ENERGY SOLUTIONS</p>
+      <p data-i18n="footerP1">Energía solar confiable para Puerto Rico e Isla Vírgenes.</p>
+    </div>
+    <div>
+      <h4 data-i18n="footerContacto">Contacto</h4>
+      <a href="tel:7876402916">📞 (787) 640-2916</a>
+      <a href="tel:9395922615">📞 (939) 592-2615</a>
+      <a href="https://wa.me/17876402916" target="_blank" rel="noopener">💬 WhatsApp: (787) 640-2916</a>
+      <a href="mailto:endlessenergysolutions.pr@gmail.com">✉️ endlessenergysolutions.pr@gmail.com</a>
+    </div>
+    <div>
+      <h4 data-i18n="footerHorario">Horario</h4>
+      <div data-i18n="footerHorarioV">
+        <p>Lunes a Sábados</p>
+        <p>8:00 am – 5:00 pm</p>
+      </div>
+      <h4 style="margin-top:20px;" data-i18n="footerCobertura">Cobertura</h4>
+      <p data-i18n="footerCoberturaV">Servicio a todo PR e Isla Vírgenes</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p data-i18n="footerCopy">© 2024 Endless Energy Solutions · Todos los derechos reservados</p>
+  </div>
+</footer>
+
+<!-- ══ WHATSAPP ══ -->
+<a class="whatsapp-float" href="https://wa.me/17876402916?text=Hola%2C%20me%20interesa%20información%20sobre%20energía%20solar" target="_blank" rel="noopener" aria-label="Contáctanos por WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  <span class="whatsapp-tooltip" data-i18n="waTooltip">💬 ¡Escríbenos!</span>
+</a>
+
+<script>
+  // ── Bilingüe ──
+  const lang = {
+    es: {
+      navInicio: 'INICIO', navNosotros: 'NOSOTROS', navServicios: 'SERVICIOS',
+      navGaleria: 'GALERÍA', navAlmacenaje: 'ALMACENAJE', navCalculadora: 'CALCULADORA',
+      navContacto: 'CONTACTO', navCta: 'Cotiza Gratis',
+      heroBadge: '⚡ Puerto Rico & Isla Vírgenes',
+      heroH1: '<span class="grad">Batería de</span><br><span class="grad2">Almacenamiento</span><br><span class="grad">Solar</span>',
+      heroP: 'La única batería en Puerto Rico con 20 años de garantía. Energía limpia, confiable y sin apagones.',
+      heroBtn1: 'Cotiza Gratis', heroBtn2: 'Calculadora de Ahorro',
+      sobreTag: 'Quiénes Somos',
+      sobreTitle: '<span class="grad">Endless Energy</span> <span class="grad2">Solutions</span>',
+      sobreSub: 'Líderes en energía solar y almacenamiento en Puerto Rico e Isla Vírgenes',
+      sobreBadge: '+20 Años de Garantía en Baterías',
+      sobreH2: 'Energía Solar al <span>Alcance</span> de Todos',
+      sobreP1: 'En <strong>Endless Energy Solutions</strong> la energía solar y el ahorro están a su alcance. Suplimos equipos al por mayor y realizamos instalaciones residenciales y comerciales.',
+      sobreP2: 'Somos representantes exclusivos de la única batería en Puerto Rico de sistemas solares con <strong>20 años de garantía</strong>.',
+      sobreP3: 'Tras los constantes apagones y la vulnerabilidad del sistema eléctrico, le proveemos soluciones confiables y permanentes.',
+      sobreLi1: 'Instalaciones residenciales y comerciales certificadas',
+      sobreLi2: 'Representantes exclusivos de POWERSYNC en Puerto Rico',
+      sobreLi3: 'Licencia de registro de contratistas de DACO',
+      sobreLi4: 'Servicio a todo PR e Isla Vírgenes',
+      sobreBtn: 'Solicitar Información',
+      serviciosTag: 'Servicios',
+      serviciosTitle: 'Nuestros <span class="grad">Servicios</span>',
+      serviciosSub: 'Soluciones integrales de energía renovable para hogares y empresas',
+      card1T: 'Instalación Residencial', card1D: 'Paneles solares de alta eficiencia para su hogar con instalación profesional certificada.',
+      card2T: 'Instalación Comercial', card2D: 'Sistemas a gran escala para negocios e industrias, reduciendo costos operativos significativamente.',
+      card3T: 'Baterías POWERSYNC', card3D: 'La única batería en PR con 20 años de garantía. Almacene la energía del sol para usarla cuando la necesite.',
+      card4T: 'Venta al Por Mayor', card4D: 'Equipos y componentes solares de calidad para distribuidores e instaladores certificados.',
+      card5T: 'Mantenimiento', card5D: 'Servicio técnico especializado para mantener su sistema operando al máximo rendimiento.',
+      card6T: 'Consultoría Energética', card6D: 'Evaluación personalizada de su consumo eléctrico y diseño del sistema ideal para usted.',
+      galeriaTag: 'Galería',
+      galeriaTitle: 'Nuestros <span class="grad">Trabajos</span>',
+      galeriaSub: 'Instalaciones residenciales y comerciales realizadas por nuestro equipo certificado',
+      galeriaCap1: 'Instalación residencial – Puerto Rico',
+      galeriaCap2: 'Sistema solar – Techo plano',
+      galeriaCap3: 'Sistema fotovoltaico completo',
+      galeriaCap4: 'Instalación comercial',
+      galeriaCap5: 'Ahorro con energía solar',
+      galeriaCap6: 'Endless Energy Solutions',
+      almacenajeTag: 'Tecnología',
+      almacenajeTitle: 'Almacenaje de <span class="grad2">Energía Solar</span>',
+      almacenajeSub: 'El futuro energético de Puerto Rico comienza con una batería que realmente dura',
+      almacenajeH3: 'POWERSYNC – 20 Años de Garantía',
+      almacenajeP1: '¡El momento para la batería de almacenamiento de energía solar es <strong>ahora</strong>! Nuestro producto POWERSYNC está inspirando el camino hacia la autonomía energética.',
+      almacenajeP2: 'Al contar con nuestro respaldo usted <strong>no perderá la energía producida</strong> por su sistema solar.',
+      almacenajeLi1: 'Almacena la energía solar excedente durante el día',
+      almacenajeLi2: 'Provee energía durante apagones nocturnos',
+      almacenajeLi3: 'Monitoreo inteligente del consumo en tiempo real',
+      almacenajeLi4: 'Compatible con todos los sistemas fotovoltaicos',
+      almacenajeLi5: 'Única batería en PR con 20 años de garantía',
+      almacenajeBtn: 'Quiero mi POWERSYNC',
+      calcTag: 'Ahorro',
+      calcTitle: 'Calculadora de <span class="grad">Ahorro</span>',
+      calcSub: 'Estime cuánto puede ahorrar al pasarse a la energía solar',
+      calcH3: 'Calcule su ahorro mensual estimado',
+      calcLabel1: '¿Cuánto paga en electricidad al mes? ($)',
+      calcLabel2: 'Tipo de propiedad',
+      calcOpt1: 'Residencial', calcOpt2: 'Comercial',
+      calcLabel3: '¿Tiene batería de almacenamiento?',
+      calcOpt3: 'No', calcOpt4: 'Sí – POWERSYNC',
+      calcBtn: 'Calcular Mi Ahorro',
+      calcResultH4: 'Ahorro mensual estimado',
+      calcResultBtn: '¡Quiero empezar a ahorrar!',
+      cotizaTag: 'Contacto',
+      cotizaTitle: 'Cotiza <span class="grad2">Gratis</span>',
+      cotizaSub: 'Déjenos sus datos y un asesor se comunicará con usted sin compromiso',
+      cotizaH3: 'Solicitud de Cotización',
+      cotizaSub2: 'Respuesta en menos de 24 horas · Sin costo · Sin compromiso',
+      cotizaLabel1: 'Nombre completo *', cotizaPh1: 'Juan García',
+      cotizaLabel2: 'Teléfono *', cotizaPh2: '(787) 000-0000',
+      cotizaLabel3: 'Correo electrónico', cotizaPh3: 'juan@email.com',
+      cotizaLabel4: 'Tipo de propiedad',
+      cotizaOpt41: 'Residencial', cotizaOpt42: 'Comercial', cotizaOpt43: 'Industrial',
+      cotizaLabel5: 'Servicio de interés',
+      cotizaOpt51: 'Paneles Solares', cotizaOpt52: 'Batería POWERSYNC', cotizaOpt53: 'Sistema Completo', cotizaOpt54: 'Mantenimiento',
+      cotizaLabel6: 'Factura mensual aproximada ($)', cotizaPh6: 'Ej: 300',
+      cotizaLabel7: 'Mensaje adicional', cotizaPh7: 'Cuéntenos más sobre sus necesidades...',
+      cotizaBtn: 'Enviar Solicitud →',
+      cotizaWa: 'Contáctanos por WhatsApp',
+      cotizaSuccess: 'Solicitud enviada con éxito<br>Un asesor se comunicará con usted pronto.<br><strong style="color:#fff;">(787) 640-2916</strong>',
+      bannerDaco: '✅ Tenemos licencia de registro de contratistas de DACO',
+      footerP1: 'Energía solar confiable para Puerto Rico e Isla Vírgenes.',
+      footerContacto: 'Contacto',
+      footerHorario: 'Horario',
+      footerHorarioV: 'Lunes a Sábados<br>8:00 am – 5:00 pm',
+      footerCobertura: 'Cobertura',
+      footerCoberturaV: 'Servicio a todo PR e Isla Vírgenes',
+      footerCopy: '© 2024 Endless Energy Solutions · Todos los derechos reservados',
+      waTooltip: '💬 ¡Escríbenos!',
+    },
+    en: {
+      navInicio: 'HOME', navNosotros: 'ABOUT', navServicios: 'SERVICES',
+      navGaleria: 'GALLERY', navAlmacenaje: 'STORAGE', navCalculadora: 'CALCULATOR',
+      navContacto: 'CONTACT', navCta: 'Get a Free Quote',
+      heroBadge: '⚡ Puerto Rico & Virgin Islands',
+      heroH1: '<span class="grad">Solar</span><br><span class="grad2">Storage</span><br><span class="grad">Battery</span>',
+      heroP: 'The only battery in Puerto Rico with 20 years warranty. Clean, reliable energy with no blackouts.',
+      heroBtn1: 'Get a Free Quote', heroBtn2: 'Savings Calculator',
+      sobreTag: 'About Us',
+      sobreTitle: '<span class="grad">Endless Energy</span> <span class="grad2">Solutions</span>',
+      sobreSub: 'Leaders in solar energy and storage in Puerto Rico and Virgin Islands',
+      sobreBadge: '+20 Years Warranty on Batteries',
+      sobreH2: 'Solar Energy for <span>Everyone</span>',
+      sobreP1: 'At <strong>Endless Energy Solutions</strong>, solar energy and savings are within your reach. We supply wholesale equipment and perform residential and commercial installations.',
+      sobreP2: 'We are exclusive representatives of the only battery in Puerto Rico with <strong>20 years warranty</strong>.',
+      sobreP3: 'After constant blackouts and the vulnerability of the electrical system, we provide reliable and permanent solutions.',
+      sobreLi1: 'Certified residential and commercial installations',
+      sobreLi2: 'Exclusive representatives of POWERSYNC in Puerto Rico',
+      sobreLi3: 'DACO contractor registration license',
+      sobreLi4: 'Service throughout PR and Virgin Islands',
+      sobreBtn: 'Request Information',
+      serviciosTag: 'Services',
+      serviciosTitle: 'Our <span class="grad">Services</span>',
+      serviciosSub: 'Comprehensive renewable energy solutions for homes and businesses',
+      card1T: 'Residential Installation', card1D: 'High-efficiency solar panels for your home with certified professional installation.',
+      card2T: 'Commercial Installation', card2D: 'Large-scale systems for businesses and industries, significantly reducing operating costs.',
+      card3T: 'POWERSYNC Batteries', card3D: 'The only battery in PR with 20 years warranty. Store solar energy to use when you need it.',
+      card4T: 'Wholesale', card4D: 'Quality solar equipment and components for certified distributors and installers.',
+      card5T: 'Maintenance', card5D: 'Specialized technical service to keep your system operating at peak performance.',
+      card6T: 'Energy Consulting', card6D: 'Personalized evaluation of your energy consumption and design of the ideal system for you.',
+      galeriaTag: 'Gallery',
+      galeriaTitle: 'Our <span class="grad">Work</span>',
+      galeriaSub: 'Residential and commercial installations by our certified team',
+      galeriaCap1: 'Residential installation – Puerto Rico',
+      galeriaCap2: 'Solar system – Flat roof',
+      galeriaCap3: 'Complete photovoltaic system',
+      galeriaCap4: 'Commercial installation',
+      galeriaCap5: 'Savings with solar energy',
+      galeriaCap6: 'Endless Energy Solutions',
+      almacenajeTag: 'Technology',
+      almacenajeTitle: '<span class="grad2">Solar Energy</span> Storage',
+      almacenajeSub: 'The energy future of Puerto Rico starts with a battery that truly lasts',
+      almacenajeH3: 'POWERSYNC – 20 Year Warranty',
+      almacenajeP1: 'The time for solar energy storage is <strong>now</strong>! Our POWERSYNC product is inspiring the path to energy independence.',
+      almacenajeP2: 'With our support you <strong>will not lose the energy produced</strong> by your solar system.',
+      almacenajeLi1: 'Stores excess solar energy during the day',
+      almacenajeLi2: 'Provides energy during nighttime blackouts',
+      almacenajeLi3: 'Real-time smart consumption monitoring',
+      almacenajeLi4: 'Compatible with all photovoltaic systems',
+      almacenajeLi5: 'Only battery in PR with 20 years warranty',
+      almacenajeBtn: 'I want my POWERSYNC',
+      calcTag: 'Savings',
+      calcTitle: '<span class="grad">Savings</span> Calculator',
+      calcSub: 'Estimate how much you can save by switching to solar energy',
+      calcH3: 'Calculate your estimated monthly savings',
+      calcLabel1: 'How much do you pay for electricity per month? ($)',
+      calcLabel2: 'Property type',
+      calcOpt1: 'Residential', calcOpt2: 'Commercial',
+      calcLabel3: 'Do you have a storage battery?',
+      calcOpt3: 'No', calcOpt4: 'Yes – POWERSYNC',
+      calcBtn: 'Calculate My Savings',
+      calcResultH4: 'Estimated monthly savings',
+      calcResultBtn: 'I want to start saving!',
+      cotizaTag: 'Contact',
+      cotizaTitle: 'Free <span class="grad2">Quote</span>',
+      cotizaSub: 'Leave your details and an advisor will contact you with no obligation',
+      cotizaH3: 'Quote Request',
+      cotizaSub2: 'Response in less than 24 hours · Free · No obligation',
+      cotizaLabel1: 'Full name *', cotizaPh1: 'John Garcia',
+      cotizaLabel2: 'Phone *', cotizaPh2: '(787) 000-0000',
+      cotizaLabel3: 'Email', cotizaPh3: 'john@email.com',
+      cotizaLabel4: 'Property type',
+      cotizaOpt41: 'Residential', cotizaOpt42: 'Commercial', cotizaOpt43: 'Industrial',
+      cotizaLabel5: 'Service of interest',
+      cotizaOpt51: 'Solar Panels', cotizaOpt52: 'POWERSYNC Battery', cotizaOpt53: 'Complete System', cotizaOpt54: 'Maintenance',
+      cotizaLabel6: 'Approximate monthly bill ($)', cotizaPh6: 'Ex: 300',
+      cotizaLabel7: 'Additional message', cotizaPh7: 'Tell us more about your needs...',
+      cotizaBtn: 'Send Request →',
+      cotizaWa: 'Contact us on WhatsApp',
+      cotizaSuccess: 'Request sent successfully<br>An advisor will contact you soon.<br><strong style="color:#fff;">(787) 640-2916</strong>',
+      bannerDaco: '✅ We have a DACO contractor registration license',
+      footerP1: 'Reliable solar energy for Puerto Rico and Virgin Islands.',
+      footerContacto: 'Contact',
+      footerHorario: 'Hours',
+      footerHorarioV: 'Monday to Saturday<br>8:00 am – 5:00 pm',
+      footerCobertura: 'Coverage',
+      footerCoberturaV: 'Service throughout PR and Virgin Islands',
+      footerCopy: '© 2024 Endless Energy Solutions · All rights reserved',
+      waTooltip: '💬 Write us!',
+    }
+  };
+
+  function setLang(l) {
+    const t = lang[l];
+    document.getElementById('langEs').className = l === 'es' ? 'active' : '';
+    document.getElementById('langEn').className = l === 'en' ? 'active' : '';
+    document.documentElement.lang = l;
+    localStorage.setItem('ees_lang', l);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key]) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const key = el.dataset.i18nPh;
+      if (t[key]) el.placeholder = t[key];
+    });
+    document.querySelectorAll('[data-i18n-opt]').forEach(el => {
+      const key = el.dataset.i18nOpt;
+      if (t[key]) el.textContent = t[key];
+    });
+  }
+
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.hero-dots span');
+
+  function goSlide(n) {
+    slides[currentSlide].style.opacity = '0';
+    dots[currentSlide].classList.remove('active');
+    currentSlide = n;
+    slides[currentSlide].style.opacity = '1';
+    dots[currentSlide].classList.add('active');
+  }
+
+  setInterval(() => {
+    goSlide((currentSlide + 1) % slides.length);
+  }, 5000);
+
+  function calcular() {
+    const PR_RATE = 0.25;
+    const bill = parseFloat(document.getElementById('bill').value) || 0;
+    if (bill <= 0) { alert('Por favor ingrese su factura mensual'); return; }
+    const hasBattery = document.getElementById('hasBattery').value;
+    const prop = document.getElementById('propType').value;
+
+    const kWh = Math.round(bill / PR_RATE);
+    let offsetPct = prop === 'com' ? 0.70 : 0.78;
+    if (hasBattery === 'yes') offsetPct = Math.min(offsetPct + 0.12, 0.95);
+    const savings = (bill * offsetPct).toFixed(2);
+    const annual = (savings * 12).toFixed(2);
+    const systemKW = ((kWh * offsetPct) / 120).toFixed(1);
+    const payback = prop === 'com' ? '3-4' : '4-6';
+
+    document.getElementById('calcNum').textContent = '$' + savings;
+    document.getElementById('calcMsg').innerHTML =
+      `📍 Basado en tarifa de PR (~$0.25/kWh) y Ley de Net Metering.<br>` +
+      `⚡ Consumo estimado: <strong>${kWh} kWh/mes</strong><br>` +
+      `☀️ Sistema recomendado: <strong>${systemKW} kW</strong><br>` +
+      `📅 Ahorro anual: <strong>$${annual}</strong><br>` +
+      `💰 Retorno de inversión: <strong>${payback} años</strong><br>` +
+      `${hasBattery === 'yes' ? '🔋 Con POWERSYNC tienes respaldo total en apagones.' : '💡 Agrega una batería POWERSYNC y ahorra hasta 95%.'}`;
+    const res = document.getElementById('calcResult');
+    res.style.display = 'block';
+    res.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+
+  function enviarCotizacion() {
+    const nombre = document.getElementById('cNombre').value.trim();
+    const tel = document.getElementById('cTel').value.trim();
+    if (!nombre || !tel) { alert('Por favor complete su nombre y teléfono'); return; }
+    const email = document.getElementById('cEmail').value.trim();
+    const tipo = document.getElementById('cTipo').value;
+    const servicio = document.getElementById('cServicio').value;
+    const factura = document.getElementById('cFactura').value.trim();
+    const mensaje = document.getElementById('cMensaje').value.trim();
+
+    const datos = { nombre, tel, email, tipo, servicio, factura, mensaje, fecha: new Date().toISOString() };
+    const historial = JSON.parse(localStorage.getItem('ees_cotizaciones') || '[]');
+    historial.push(datos);
+    localStorage.setItem('ees_cotizaciones', JSON.stringify(historial));
+
+    if (typeof emailjs !== 'undefined') {
+      emailjs.send(
+        'service_jjzrnbn',
+        '4e8mtuk',
+        {
+          from_name: nombre,
+          to_name: 'Endless Energy Solutions',
+          from_email: email || 'No especificado',
+          phone: tel,
+          property_type: tipo,
+          service: servicio,
+          bill: factura ? `$${factura}` : 'No especificado',
+          message: mensaje || 'Ninguno',
+        },
+        'LJR3kLpoCsJL9KI9z'
+      ).then(() => {
+        console.log('✅ Correo enviado por EmailJS');
+      }, (err) => {
+        console.warn('⚠️ Error EmailJS (si no configurado, ignorar):', err);
+      });
+    }
+
+    const asunto = encodeURIComponent('Nueva Cotización - Endless Energy Solutions');
+    const cuerpo = encodeURIComponent(
+`Nombre: ${nombre}
+Teléfono: ${tel}
+Email: ${email || 'No especificado'}
+Tipo: ${tipo}
+Servicio: ${servicio}
+Factura: $${factura || 'No especificado'}
+Mensaje: ${mensaje || 'Ninguno'}
+--- Enviado desde endless_energy_solutions_pro.html ---`
+    );
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=endlessenergysolutions.pr@gmail.com&su=${asunto}&body=${cuerpo}`, '_blank');
+
+    const texto = `Hola, soy ${nombre}.%0A%0A📋 *Nueva Cotización*%0A👤 Nombre: ${nombre}%0A📞 Tel: ${tel}%0A✉️ Email: ${email || 'No especificado'}%0A🏠 Tipo: ${tipo}%0A🔧 Servicio: ${servicio}%0A💰 Factura: $${factura || 'No especificado'}%0A💬 Mensaje: ${mensaje || 'Ninguno'}`;
+    window.open(`https://wa.me/17876402916?text=${texto}`, '_blank');
+
+    const msg = document.getElementById('successMsg');
+    msg.style.display = 'block';
+    msg.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    ['cNombre','cTel','cEmail','cFactura','cMensaje'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+  }
+
+  const savedLang = localStorage.getItem('ees_lang') || 'es';
+  setLang(savedLang);
+</script>
+</body>
+</html>
